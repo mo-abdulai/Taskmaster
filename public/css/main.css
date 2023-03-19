@@ -1,0 +1,212 @@
+:root {
+    --body_gradient_left: #517CA4;
+    --body_gradient_right: #517CA4;
+    --form_bg: #ffffff;
+    --input_bg: #E5E5E5;
+    --input_hover: #eaeaea;
+    --submit_bg: #517CA4;
+    --submit_hover: #40e263;
+    --icon_color: #6b6b6b;
+}
+
+#form_right {
+    display: grid;
+    /* set a single column layout */
+    grid-template-columns: 1fr;
+    /* contain gap in between elements*/
+    grid-gap: 20px;
+    padding: 20% 5%;
+    margin-left: 60px;
+
+}
+
+
+.input_container {
+    background-color: var(--input_bg);
+    /* set  vertically align icon and text inside the div*/
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    
+    position: relative;
+}
+
+.input_container:hover {
+    background-color: var(--input_hover);
+}
+
+.input_container,
+#input_submit {
+    height: 60px;
+    /* create borders around */
+    border-radius: 30px;
+    width: 100%;
+}
+
+.input_field {
+    /* customize input tag with lighter font and contain padding*/
+    color: var(--icon_color);
+    background-color: inherit;
+    width: 90%;
+    border: none;
+    font-size: 1.3rem;
+    font-weight: 400;
+    padding-left: 30px;
+}
+
+.input_field:hover,
+.input_field:focus {
+    /* remove the outline */
+    outline: none;
+}
+
+#input_submit {
+    /* submit button has a different color and different padding */
+    background-color: var(--submit_bg);
+    padding-left: 0;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+}
+
+#input_submit:hover {
+    background-color: var(--submit_hover);
+    /* simple color transition on hover */
+    transition: background-color,
+    1s;
+    cursor: pointer;
+}
+
+/* shift it a bit lower */
+#create_account {
+    display: block;
+    position: relative;
+    top: 30px;
+}
+
+a {
+    /* delete the default underline */
+    text-decoration: none;
+    color: var(--submit_bg);
+    font-weight: bold;
+}
+
+a:hover {
+    color: var(--submit_hover);
+}
+
+i {
+    color: var(--icon_color);
+}
+
+/* make it responsive */
+@media screen and (max-width:768px) {
+
+    /* create the layout a single column and add some margin to the wrapper */
+    #form_wrapper {
+        grid-template-columns: 1fr;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    /* on small screen we don't display the image */
+    #form_left {
+        display: none;
+    }
+}
+
+.pagebody {
+    height: 100vh;
+    background-size: cover;
+    background-color: #99B8D4;
+    padding: 20px;
+    object-fit: cover;
+    text-align: center;
+
+
+}
+
+.right-image{
+    width: 20%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.mainbody {
+    background-color: #ffffff;
+    height: 100vh;
+    justify-content: end;
+    width: 600px;
+}
+
+.tagline {
+    color: white;
+    font-size: 3.8rem;
+    line-height: 0.95;
+    line-height: 1.05;
+    font-weight: 200;
+    letter-spacing: -0.02em;
+    padding-bottom: 55px;
+    -webkit-transform: translateX(-0.0625em);
+    transform: translateX(-0.0625em);
+    text-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    padding: 25px;
+}
+
+.nopadding {
+
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.start {
+    font-size: 1.5rem;
+    color: red;
+    text-decoration: underline rgb(10, 10, 10);
+    padding: 15px;
+}
+
+.user-password {
+    padding-bottom: 10px;
+}
+
+.hr-color {
+    height: 0.25px;
+    background-color: blue;
+    border: none;
+}
+
+.bkg-color-gray {
+    background-color: #c0c0;
+}
+
+
+
+/* .wrapper { position: relative; display: flex; } */
+
+input {
+        width: 10rem;
+        height: 2.5rem;
+        padding: 0 0.5rem; border-radius: 0.25rem; border: 1px solid #585858;
+        color: #f9f9f9;
+}
+.validation {
+    position: absolute;
+    top: 0.55rem;
+    right: 0.7rem;
+    opacity: 0;
+    color: #fd4444;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translate(0); }
+    25% { transform: translateX(8px); }
+    75% { transform: translate(-8px); }
+}
+input:valid { border-color: #55d688; } 
+input:invalid { border-color: #fd4444; } 
+input:invalid ~ .validation { opacity: 1; } 
+input:invalid, input:invalid ~ .validation{
+             animation: shake 0.1635s Os 3;
+            }

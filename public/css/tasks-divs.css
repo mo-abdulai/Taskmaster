@@ -1,0 +1,222 @@
+/* Start of to do  */
+/* body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #fafafa;
+  } */
+  main {
+    width: 80%;
+    margin: 0 auto;
+  }
+  
+  @media only screen and (max-width: 1235px) {
+    main {
+      width: 90%;
+    }
+  }
+  
+  @media only screen and (max-width: 900px) {
+    main {
+      width: 95%;
+    }
+  }
+  
+  #chart-wrapper {
+    clear: both;
+    box-shadow: 0px 1px 9px #ccc;
+    position: relative;
+    top: 1em;
+    background-color: white;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .chart {
+    width: 100%;
+    min-height: 450px;
+  }
+  
+  
+  #left {
+    float: left;
+    width: 36%;
+    border: 1px solid #ccc;
+    box-shadow: 0px 1px 9px #ccc;
+    margin-top: 5em;
+    padding-bottom: 3em;
+  }
+  
+  #right {
+    float: right;
+    width: 63%;
+    border: 1px solid #ccc;
+    box-shadow: 0px 1px 9px #ccc;
+    margin-top: 5em;
+    height: 338px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  
+  @media only screen and (max-width: 1235px) {
+    #right {
+      width: 100%;
+      float: none;
+    }
+    #left {
+      width: 100%;
+      float: none;
+    }
+  }
+  
+  @media only screen and (max-width: 1235px) {
+    #right {
+      width: 100%;
+      float: none;
+    }
+    #left {
+      width: 100%;
+      float: none;
+    }
+  }
+  
+  #form-wrapper {
+    padding: 1em;
+  }
+  
+  #form-col-wrapper {
+    padding-top: 1em;
+  }
+  
+  #form-left {
+    float: left;
+    width: 64%;
+    border-right: 1px dotted #ccc;
+  }
+  
+  #form-right {
+    float: right;
+    width: 35%;
+  }
+  
+  textarea::placeholder {
+    color: #ccc;
+    text-indent: 5px;
+    line-height: 2em;
+    font-family: 'Roboto', sans-serif;
+  }
+  textarea {
+    color: #000;
+    text-indent: 5px;
+    line-height: 2em;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .form-footer {
+    clear: both;
+  }
+  #right-wrapper {
+    padding: 1em;
+  }
+  form h1 {
+    font-family: 'Roboto Slab', serif;
+    color: #333;
+    margin: 4px 0;
+    padding-bottom: 0.5em;
+    border-bottom: 1px dotted #ccc;
+  }
+  
+  /* h3 {
+    color: #3366cc;
+  } */
+  
+  /* h2 {
+    color: #3366cc;
+    border-bottom: dotted 1px #ccc;
+  } */
+  
+  ul {
+    list-style-type: none;
+    padding: 1em;
+    background-color: #fff;
+    border-radius: 8px;
+    border: 1px solid #efefef;
+    width: 90%;
+    margin: 1em auto;
+  }
+  
+  li {
+    display: inline;
+    margin-right: 1em;
+  }
+  
+  textarea {
+    width: 100%;
+    height: 2em;
+  }
+  
+  .submit-button {
+    position: relative;
+    float: right;
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    -webkit-border-radius: 5;
+    -moz-border-radius: 5;
+    border-radius: 5px;
+    color: #ffffff;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+    border: none;
+    display: block;
+    background: #435d7d;
+    /* background-image: -webkit-linear-gradient(top, #dc3912, #be3110);
+    background-image: -moz-linear-gradient(top, #dc3912, #be3110);
+    background-image: -ms-linear-gradient(top, #dc3912, #be3110);
+    background-image: -o-linear-gradient(top, #dc3912, #be3110);
+    background-image: linear-gradient(to bottom, #dc3912, #be3110); */
+  }
+  
+  .submit-button:hover {
+    background: #4479b9;
+    /* background-image: -webkit-linear-gradient(top, #be3110, #dc3912);
+    background-image: -moz-linear-gradient(top, #be3110, #dc3912);
+    background-image: -ms-linear-gradient(top, #be3110, #dc3912);
+    background-image: -o-linear-gradient(top, #be3110, #dc3912);
+    background-image: linear-gradient(to bottom, #be3110, #dc3912); */
+  }
+  
+  .person {
+    font-size: 16px;
+    -webkit-border-radius: 10;
+    -moz-border-radius: 10;
+    border-radius: 10px;
+    color: #ffffff;
+    padding: 5px 10px;
+    text-decoration: none;
+    border: none;
+    background: #3366cc;
+  }
+  .task-date {
+    font-size: 16px;
+    -webkit-border-radius: 10;
+    -moz-border-radius: 10;
+    border-radius: 10px;
+    color: #ffffff;
+    padding: 5px 10px;
+    text-decoration: none;
+    border: none;
+    background-color: #000000;
+  }
+  
+  
+  .task-descrip {
+    /* line-height: 2em; */
+    font-size: 16px;
+    -webkit-border-radius: 10;
+    -moz-border-radius: 10;
+    border-radius: 10px;
+    color: #ffffff;
+    padding: 5px 10px;
+    text-decoration: none;
+    border: none;
+    background-color: #9900f1;
+  }
+  /* end of todo */
