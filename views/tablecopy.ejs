@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <link rel="stylesheet" href="./css/user-table.css">
+
+    <title>table</title>
+</head>
+<body>
+    <div class="table-title">
+        <div class="row">
+            <div class="col-xs-5">
+                <h2 class="header-title">User <b>Management</b></h2>
+            </div>
+            <div class="col-xs-7">
+                <a href="#" id="invite-button" class="btn-primary btn"><i class="material-icons">&#xE147;</i> <span>Invite A Member</span></a>
+                <div id="invite-form" class="hidden">
+                    
+                    <form action="/add-member" method="post">
+                    <input placeholder="Enter Email" type="email" id="email" name="email" required>
+                    <input placeholder="Full Name" type="text" id="name" name="fullname" required>
+                    <input placeholder="Phone Number" type="text" id="phone" name="phone" required>
+                    <!-- Success message -->
+                    <div class="alert alert-success" role="alert" id="success_message">Success <i class="glyphicon glyphicon-thumbs-up"></i> Thanks for contacting us, we will get back to you shortly.</div>
+          
+                    <button type="submit" value="submit">Send Invitation</button>
+                  </form>
+          
+                </div>
+            </div>
+            
+        </div>
+        
+    </div>
+    <div class="container">
+        <div class="table-responsive">
+            <div class="table-wrapper">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>						
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Role</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    
+                    <%
+                    if(userData.length!=0){
+                    var i=1;
+                    userData.forEach(function(data){
+                    %>
+
+                    <tbody>
+                        <tr>
+                            <td><%=i; %></td>
+                            <td><a href="#"><%=data.fullname %></a></td>
+                            <td><%=data.email %></td>                        
+                            <td><%=data.phone %></td>
+                            <td><%=data.role %></td>
+                            <td>
+                                <a href="/user-edit/<%=data.id%>" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
+                                <a href="user-delete/<%=data.id%>" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
+                            </td>  
+                        </tr>
+
+                        <%  i++; }) %>
+                        
+                        <% } else{ %>
+                            <tr>
+                                <td colspan="7">No Data Found</td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+                
+            </div>
+        </div>        
+      </div>
+</body>
+</html>

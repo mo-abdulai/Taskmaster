@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Task Master</title>
+        <meta charset="utf-8">
+        <!-- scheduler -->
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        <!------ Include the above in your HEAD tag ---------->
+
+        <script src="https://cdn.dhtmlx.com/scheduler/edge/dhtmlxscheduler.js"
+            charset="utf-8"></script>
+      <link href="https://cdn.dhtmlx.com/scheduler/edge/dhtmlxscheduler_material.css"
+            rel="stylesheet" type="text/css" charset="utf-8">
+            <link rel="stylesheet" href="./css/admin.css">
+        <style>
+
+            html, body{
+                margin:0px;
+                padding:0px;
+                height:100%;
+                overflow:hidden;
+            }
+        </style>
+    </head>
+<body>
+    
+    <div  class="navbar navbar-light" style="background-color: #517ca4;">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a class="brand" href="">Task Master</a>
+    		
+          	<div class="nav-collapse collapse">
+              <ul class="nav">
+                  <li class="divider-vertical"></li>
+                  <li><a href="#"><i class="icon-home icon-white"></i> Home</a></li>
+              </ul>
+              <div class="pull-right">
+                <ul class="nav pull-right">
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> Welcome, <%= name %>   <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#"><i class="icon-cog"></i> Preferences</a></li>
+                            <li><a href="#"><i class="icon-envelope"></i> Contact Admin</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/logout"><i class="icon-off"></i> Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+     
+    <main>
+      <section id="users">
+        <h2>Users</h2>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td><input type="text" name="addname" placeholder="Full Name"></td>
+            <td><input type="text" name="addemail" placeholder="taskaster@sample.com"></td>
+            <td>
+              <select name="role">
+                <option value="volvo">Admin</option>
+                <option value="saab">User</option>
+              </select>
+            </td>
+            <td>
+              <button class="edit-btn">Edit</button>
+              <button class="delete-btn">Delete</button>
+            </td>
+          </tr>
+        </table>
+        <button id="add-user-btn">Add User</button>
+      </section>
+
+      <div id="form-container">
+        <form class="hidden-form">
+          
+          <input class="custom-input" type="text" name="name" placeholder="name"><br><br>
+      
+          <input class="custom-input" type="email" name="email" placeholder="email"><br><br>
+         
+          <input type="text" name="contact" placeholder="contact"><br><br>
+          <input type="submit" value="Submit">
+        </form>
+      </div>
+      
+      <section id="projects">
+        <h2>Projects</h2>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td>Project A</td>
+            <td>Active</td>
+            <td>
+              <button class="edit-btn">Edit</button>
+              <button class="delete-btn">Delete</button>
+            </td>
+          </tr>
+        </table>
+        <button id="add-project-btn">Add Project</button>
+      </section>
+
+      <!-- <section id="settings">
+        <h2>Settings</h2>
+        <form>
+          <label for="company-name">Company Name:</label>
+          <input type="text" id="company-name" value="Monday.com">
+          <br>
+          <label for="timezone">Timezone:</label>
+          <select id="timezone">
+            <option value="UTC-12">(UTC-12:00) International Date Line West</option>
+            <option value="UTC-11">(UTC-11:00) Coordinated Universal Time-11</option>
+            ...
+          </select>
+          <br>
+          <button type="submit">Save</button>
+        </form>
+      </section> -->
+    </main>
+
+
+
+  <footer>
+      <p>&copy; 2023 TaskMaster</p>
+    </footer>
+    <script type="text/javascript" src="/admin.js"></script>
+  </body>
+</html>
+
+
+
+
