@@ -215,9 +215,14 @@ app.get('/login', (req, res) => {
 
 app.get('/user-delete/:id', function(req, res){
     var id = req.params.id;
-    db.query('DELETE FROM users WHERE id = ?', [id], (error, results, fields) => {
+    
+    db.query('DELETE FROM events WHERE userID = ?', [id], (error, results, fields) => {
         if (error) throw error;
-        res.redirect('/admin');
+        var userID = req.params.id;
+        db.query('DELETE FROM users WHERE id = ?', [id], (error, results, fields) => {
+            if (error) throw error;  
+            res.redirect('/admin');
+        })    
       });
 })
 
@@ -238,7 +243,6 @@ app.post("/add-task", function(req, res){
           } else {
             console.log('Data inserted successfully'); 
           }
-
         //   res.redirect('/admin')
       });
 })

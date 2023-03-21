@@ -1,7 +1,5 @@
-// const db = require("./db")
-
+// import { db } from '../js/db';
 document.addEventListener("DOMContentLoaded", function(event) {
-   
   const showNavbar = (toggleId, navId, bodyId, headerId) =>{
   const toggle = document.getElementById(toggleId),
   nav = document.getElementById(navId),
@@ -53,49 +51,28 @@ function addTask() {
   
   drawList();//call to the function that appends the elements to the the page 
   //  changeColor(); // call to the function that changes the color of the easy, moderate, or hard labels
-  
-  // var d = document.getElementById("difficulty");
-  // var checkedName = document.querySelector('input[name="assignto"]:checked').value;
-  // var dropDown = d.options[d.selectedIndex].value;
+
 
 }
 
 //Variable array for tasks
 //******************************
-
-
 var task1 = {
-  assignto: "",
-      Date: "",
-      description: ""
+    assignto: "",
+    Date: "",
+    description: ""
 };
 
-function loadTask(task1){
-  
-  let sql = `SELECT name, end_date, text FROM events`;
-  db.query(sql, function (err, results) {
-  if (err) throw err;  
-  // task1 = {
-  //       assignto: results.name,
-  //       Date: results.end_date,
-  //       description: results.text
-  // }; 
-  results.forEach(result => {
-    task1[result.userID] = {
-      assignto: result.name,
-      Date: result.end_date,
-      description: result.text
-    };
-  });
+  // let sql = `SELECT name, end_date, text FROM events`;
+  // db.query(sql, function (err, results) {
+  // if (err) throw err;  
+  // task1 = results.map(row => ({
+  //     assignto: row.name,
+  //     Date: row.end_date,
+  //     description: row.text
+  // }));
+  // })
 
-
-  
-  
-  })
-
-}
-
-// loadTask();
 var taskList = {
   tasks: [task1]
 };
@@ -103,6 +80,8 @@ var taskList = {
 //function that appends the elements to the the page 
 //******************************
 function drawList() {
+
+
   var listCont = document.getElementById("list-container");
   var list = document.createElement("ul");
   for (var i = 0; i < taskList.tasks.length; i++) {
@@ -119,12 +98,10 @@ function drawList() {
     list.appendChild(item2).setAttribute("class", "task-date");
     list.appendChild(item3).setAttribute("class", "task-descrip");
     listCont.appendChild(list);
-    
 }
 
 window.onload = function() {
-  loadTask(task1)
-  drawList();
+   drawList();
   var form = document.querySelector("form");
   form.onSubmit = addTask;
 };

@@ -93,6 +93,7 @@
   }
   
   #form-right {
+    overflow: hidden;
     float: right;
     width: 35%;
   }
