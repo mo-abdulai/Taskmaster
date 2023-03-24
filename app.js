@@ -39,6 +39,7 @@ app.use(express.static("public"))
 
 // scope variable 
 var userdatas = []
+var userTasks = []
 
 //session middleware
 app.use(sessions({
@@ -115,7 +116,7 @@ app.post("/add-member", async function(req, res) {
     // send email invite to user
     googleEmail.sendEmail(email, content);
     // send text message
-    // twilio.sendSMS();
+   
   // construct the SQL query dynamically
   const encryptedPassword = await bcrypt.hash(password, saltRounds);
     var sql = `INSERT INTO users (email, fullname, phone, username, password, role) VALUES ('${email}', '${fullname}', '${phone}', '${username}', '${encryptedPassword}', '${role}')`;
@@ -150,11 +151,13 @@ app.post("/admin", function(req,res){
 
 app.get("/admin", function(req, res){
     
-    let sql = `SELECT * FROM users`;
-    db.query(sql, function (err, results) {
+    // let sql = `SELECT * FROM users`;
+    // let sql2 = `SELECT * FROM events`;
+    db.query(`SELECT * FROM users; SELECT * FROM events`, function (err, results) {
     if (err) throw err;  
-    userdatas = results;   
-    res.render('admin', {userData: userdatas});
+    userdatas = results[0];  
+    userTasks = results[1]; 
+    res.render('admin', {userData: userdatas, userTaskz: userTasks });
 })
    
 })
@@ -215,9 +218,14 @@ app.get('/login', (req, res) => {
 
 app.get('/user-delete/:id', function(req, res){
     var id = req.params.id;
-    db.query('DELETE FROM users WHERE id = ?', [id], (error, results, fields) => {
+    
+    db.query('DELETE FROM events WHERE userID = ?', [id], (error, results, fields) => {
         if (error) throw error;
-        res.redirect('/admin');
+        var userID = req.params.id;
+        db.query('DELETE FROM users WHERE id = ?', [id], (error, results, fields) => {
+            if (error) throw error;  
+            res.redirect('/admin');
+        })    
       });
 })
 
@@ -236,9 +244,9 @@ app.post("/add-task", function(req, res){
             console.error(error);
             res.status(500).send('Error inserting data');
           } else {
+             //twilio.sendSMS();
             console.log('Data inserted successfully'); 
           }
-
         //   res.redirect('/admin')
       });
 })
