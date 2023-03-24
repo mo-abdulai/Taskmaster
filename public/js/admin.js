@@ -80,28 +80,54 @@ var taskList = {
 //function that appends the elements to the the page 
 //******************************
 function drawList() {
+  // var listCont = document.getElementById("list-container");
+  // var list = document.createElement("ul");
+  // for (var i = 0; i < taskList.tasks.length; i++) {
+  //   var d = document.getElementById("date");
+  //   var p = document.getElementById("person")
+  //   var item = document.createElement("li");
+  //   var item2 = document.createElement("li");
+  //   var item3 = document.createElement("li");
 
+  //   var item1 = p.options[p.selectedIndex];
+  //   var persn = item1.dataset.hiddenValue;
 
-  var listCont = document.getElementById("list-container");
-  var list = document.createElement("ul");
+  //   item.innerHTML = p.options[p.selectedIndex].dataset.hiddenValue;
+  //   item2.innerHTML = d.value;
+  //   item3.innerHTML = taskList.tasks[i].description;
+  // }
+  
+  //   list.appendChild(item).setAttribute("class", "person");
+  //   list.appendChild(item2).setAttribute("class", "task-date");
+  //   list.appendChild(item3).setAttribute("class", "task-descrip");
+  //   listCont.appendChild(list);
+
+  var table = document.getElementById("table-container");
+  var newRow = document.createElement("tr");
   for (var i = 0; i < taskList.tasks.length; i++) {
+    
     var d = document.getElementById("date");
     var p = document.getElementById("person")
-    var item = document.createElement("li");
-    var item2 = document.createElement("li");
-    var item3 = document.createElement("li");
-    item.innerHTML = p.options[p.selectedIndex].value;
+    var item = document.createElement("td");
+    var item2 = document.createElement("td");
+    var item3 = document.createElement("td");
+
+    var item1 = p.options[p.selectedIndex];
+    // var persn = item1.dataset.hiddenValue;
+
+    item.innerHTML = p.options[p.selectedIndex].dataset.hiddenValue;
     item2.innerHTML = d.value;
-    item3.innerHTML = "<b>Task:</b> " + taskList.tasks[i].description;
+    item3.innerHTML = taskList.tasks[i].description;
   }
-    list.appendChild(item).setAttribute("class", "person");
-    list.appendChild(item2).setAttribute("class", "task-date");
-    list.appendChild(item3).setAttribute("class", "task-descrip");
-    listCont.appendChild(list);
+    newRow.appendChild(item).setAttribute("class", "person");
+    newRow.appendChild(item2).setAttribute("class", "task-date");
+    newRow.appendChild(item3).setAttribute("class", "task-descrip");
+    table.appendChild(newRow);
+  
 }
 
 window.onload = function() {
-   drawList();
+  //  drawList();
   var form = document.querySelector("form");
   form.onSubmit = addTask;
 };

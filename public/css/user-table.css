@@ -31,7 +31,7 @@
 	}
 	.table-title .btn {
 		color: #fff;
-		float: right;
+		/* float: right; */
 		font-size: 13px;
 		border: none;
 		min-width: 50px;
@@ -40,6 +40,13 @@
 		outline: none !important;
 		margin-left: 10px;
 	}
+
+	.btn{
+		position: absolute;
+		right: 0;
+		margin-right: 20px;
+	}
+
 	.table-title .btn i {
 		float: left;
 		font-size: 21px;
