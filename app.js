@@ -92,9 +92,6 @@ app.post("/", async function(req, res){
         }
     });
 })
-
-
-
 // Set up a route to display the flash message
 app.use((req, res, next) => {
     res.locals.successMessage = req.flash('success');
@@ -109,7 +106,7 @@ app.post("/add-member", async function(req, res) {
     var password = adminPage.autoGenerate(12);
     var role = "user";
 
-    let textMessage =  `\r\n\r\n Hello  This is just a kind reminder that tomorrow is your clean-up day.\n Thank you for helping keep the house tidy.\n\n For more information, please visit https://fierce-reaches-38495.herokuapp.com.\n\n Have a great evening!`
+    // let textMessage =  `\r\n\r\n Hello  This is just a kind reminder that tomorrow is your clean-up day.\n Thank you for helping keep the house tidy.\n\n For more information, please visit https://fierce-reaches-38495.herokuapp.com.\n\n Have a great evening!`
     const link = `<a href="http://localhost:3000">TaskMaster.com</a>`;
     let content = `You have been invited to join TaskMaster go to this link to join your team ${link} with your username as: ${username} and password: ${password}. Kindly select role as: user`;
   
@@ -150,9 +147,6 @@ app.post("/admin", function(req,res){
 })
 
 app.get("/admin", function(req, res){
-    
-    // let sql = `SELECT * FROM users`;
-    // let sql2 = `SELECT * FROM events`;
     db.query(`SELECT * FROM users; SELECT * FROM events`, function (err, results) {
     if (err) throw err;  
     userdatas = results[0];  
@@ -231,24 +225,33 @@ app.get('/user-delete/:id', function(req, res){
 
 
 app.post("/add-task", function(req, res){
+
+
+
       const {userID, end_date, text } = req.body;
       var now = new Date();
       const start_date = moment(now).format('YYYY-MM-DD, h:mm:ss');
       const end_datefull = end_date + " " + moment().format('LTS').replace(/ AM| PM/g, '');;
 
-      console.log(end_datefull);
-      
-        let sql = `INSERT into events (userID, start_date, end_date, text) VALUES('${userID}', '${start_date}', '${end_datefull}', '${text}')`;
-        db.query(sql, (error, result) => {
-        if (error) {
-            console.error(error);
-            res.status(500).send('Error inserting data');
-          } else {
-             //twilio.sendSMS();
-            console.log('Data inserted successfully'); 
-          }
+    //   console.log(end_datefull);
+
+        const link = `https://heroku/taskMaster.com`;
+        // let sql = `INSERT into events (userID, start_date, end_date, text) VALUES('${userID}', '${start_date}', '${end_datefull}', '${text}')`;
+        // let sql2 = `SELECT fullname, phone FROM users WHERE id = ${userID}`;
+        let sql = `INSERT into events (userID, start_date, end_date, text) VALUES('${userID}', '${start_date}', '${end_datefull}', '${text}'); SELECT fullname, phone FROM users WHERE id = ${userID}`;
+        db.query(sql, (error, results) => {
+         if (error) throw error;
+            if( results[1] && Object.keys(results[1]).length > 0 ){
+                var name = results[1][0].fullname.split(' ')[0];
+                var phone = results[1][0].phone;
+                let content =  `\rHello ${name}, \r\n\r\nThis is just a kind reminder that you have been assigned a task by your admin.Kindly complete them before the deadline.\r\r\r\nFor more information, please visit ${link}.\n\n Have a great day!`
+
+                twilio.sendSMS(phone, content);
+                res.redirect('admin')
+            }
+         }
         //   res.redirect('/admin')
-      });
+      );
 })
 
 app.get("/logout", function(req, res) {

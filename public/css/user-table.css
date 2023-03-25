@@ -124,6 +124,17 @@
 		padding: 20px 30px;
 	}
 
+	.modal form label[for="fullname"]::after, 
+	.modal form label[for="email"]::after,
+	.modal form label[for="phone"]::after {
+		content: " *";
+		color: red;
+	  }
+	  
+	input[required] {
+		border: 1px solid red;
+	  }
+
 	.modal .modal-content {
 		border-radius: 3px;
 	}

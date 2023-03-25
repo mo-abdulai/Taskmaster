@@ -30,7 +30,7 @@ module.exports.sendEmail = function (email, content) {
 
 
  let mailOptions = {
-   from: "TaskMaster<hajiasawudatunpp@gmail.com>", // sender address
+   from: "TaskMaster<nurud43@gmail.com>", // sender address
    to: email, // list of receivers
    subject: 'Welcome to TaskMaster', // Subject line
    text: content,
