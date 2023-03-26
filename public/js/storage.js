@@ -33,10 +33,8 @@ class Storage {
     
     // create new event
     async insert(data) {
-        let fk = 25;
         let result = await this._db.query(
-            
-            "INSERT INTO events (fk, start_date`, `end_date`, `text`) VALUES (?,?,?,?)",
+            "INSERT INTO events (start_date`, `end_date`, `text`) VALUES (?,?,?,?)",
             [this.table, data.fk, data.start_date, data.end_date, data.text]);
  
         return {

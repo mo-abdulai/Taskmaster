@@ -147,10 +147,15 @@ app.post("/admin", function(req,res){
 })
 
 app.get("/admin", function(req, res){
-    db.query(`SELECT * FROM users; SELECT * FROM events`, function (err, results) {
+    db.query(`SELECT * FROM users; SELECT *,users.fullname FROM events JOIN users ON events.userID = users.id`, function (err, results) {
     if (err) throw err;  
     userdatas = results[0];  
-    userTasks = results[1]; 
+    userTasks = results[1].map( task => {
+    const modifiedDate = moment(task.end_date).format("LL");
+    return { ...task, modifiedDate }
+    })
+
+    console.log(userTasks)
     res.render('admin', {userData: userdatas, userTaskz: userTasks });
 })
    
@@ -197,7 +202,6 @@ app.post("/login", async (req, res)=>{
         }
         else{
             res.render('login',{message: 'Invalid Username Or Password'});        }
-
      });
 });
 
@@ -231,16 +235,19 @@ app.post("/add-task", function(req, res){
       const {userID, end_date, text } = req.body;
       var now = new Date();
       const start_date = moment(now).format('YYYY-MM-DD, h:mm:ss');
-      const end_datefull = end_date + " " + moment().format('LTS').replace(/ AM| PM/g, '');;
+      var end_date1 = new Date(end_date).toUTCString();
+    //   end_date1 =  end_date1.split(' ').slice(0,4).join(' ')
 
-    //   console.log(end_datefull);
+      const end_datefull = end_date + " " + moment().format('LTS').replace(/ AM| PM/g, '');
 
+        //console.log(end_datefull);
         const link = `https://heroku/taskMaster.com`;
         // let sql = `INSERT into events (userID, start_date, end_date, text) VALUES('${userID}', '${start_date}', '${end_datefull}', '${text}')`;
         // let sql2 = `SELECT fullname, phone FROM users WHERE id = ${userID}`;
         let sql = `INSERT into events (userID, start_date, end_date, text) VALUES('${userID}', '${start_date}', '${end_datefull}', '${text}'); SELECT fullname, phone FROM users WHERE id = ${userID}`;
         db.query(sql, (error, results) => {
          if (error) throw error;
+         console.log(end_datefull)
             if( results[1] && Object.keys(results[1]).length > 0 ){
                 var name = results[1][0].fullname.split(' ')[0];
                 var phone = results[1][0].phone;
