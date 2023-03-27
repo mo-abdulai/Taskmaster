@@ -1,0 +1,94 @@
+<html>
+    <head>
+                <title>Task Master</title>
+                <meta charset="utf-8">
+                <!-- scheduler -->
+
+                <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
+                <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+                <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+                <!------ Include the above in your HEAD tag ---------->
+
+                <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
+                <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+                <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+                <script src="https://cdn.dhtmlx.com/scheduler/edge/dhtmlxscheduler.js"
+                    charset="utf-8"></script>
+              <link href="https://cdn.dhtmlx.com/scheduler/edge/dhtmlxscheduler_material.css"
+                    rel="stylesheet" type="text/css" charset="utf-8">
+                <style>
+        
+                    html, body{
+                        margin:0px;
+                        padding:0px;
+                        height:100%;
+                        overflow:hidden;
+                    }
+                </style>
+            </head>
+
+    <div class="navbar navbar-light" style="background-color: #008ef3;">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a class="brand" href="">Task Master</a>
+    		
+          	<div class="nav-collapse collapse">
+              <ul class="nav">
+                  <li class="divider-vertical"></li>
+                  <li><a href="#"><i class="icon-home icon-white"></i> Home</a></li>
+              </ul>
+              <div class="pull-right">
+                <ul class="nav pull-right">
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> Welcome, name   <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#"><i class="icon-cog"></i> Preferences</a></li>
+                            <li><a href="./contact-admin"><i class="icon-envelope"></i> Contact Admin</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/logout"><i class="icon-off"></i> Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <body>
+                <div id="scheduler_here" class="dhx_cal_container"
+                    style="width:100%; height:100%;">
+                    <div class="dhx_cal_navline">
+                        <div class="dhx_cal_prev_button">&nbsp;</div>
+                        <div class="dhx_cal_next_button">&nbsp;</div>
+                        <div class="dhx_cal_today_button"></div>
+                        <div class="dhx_cal_date"></div>
+                        <div class="dhx_cal_tab" name="day_tab"></div>
+                        <div class="dhx_cal_tab" name="week_tab"></div>
+                        <div class="dhx_cal_tab" name="month_tab"></div>
+                    </div>
+                    <div class="dhx_cal_header"></div>
+                    <div class="dhx_cal_data"></div>
+                </div>
+                <script>
+        
+                    scheduler.config.load_date="%Y-%m-%d %H:%i";
+                    scheduler.init("scheduler_here", new Date(2022, 0, 20), "week");
+                    scheduler.setLoadMode("day");
+         
+                    // load data from backend
+                    scheduler.load("/events", "json");
+         
+                    // connect backend to scheduler
+                    const dp = scheduler.createDataProcessor({
+                        url: "/events",
+                        mode: "REST"
+                    });
+                </script>
+            </body>
+ </html>

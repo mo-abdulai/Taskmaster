@@ -6,7 +6,7 @@
     <div id="form-wrapper">
       
       
-      <form id="taskForm" action="/add-task" method="post" onsubmit="addTask()"> <!-- onsubmit="addTask()" -->
+      <form id="taskForm" action="/add-task" method="post"> <!-- onsubmit="addTask()" -->
         <input class="submit-button" type="submit" value="Assign Task">
         <h1>Add Task</h1>
         <h3>Task Description</h3>
@@ -37,31 +37,26 @@
   <div id="right">
     <div id="right-wrapper">
       <h2>Task Assigned</h2>
-      <table id="table-container">
+      <table class="task-table" id="table-container">
         <thead>
           <tr>
             <th>Name</th>
             <th>Due Date</th>
             <th>Task</th>
-            </tr>
-          </thead>
-      
-      <div id="">
-        
-        <tbody>
+          </tr>
+        </thead>
         <% userTaskz.forEach(task => { %>
-
-          <!-- let date = moment(task.end_date).format('YYYY-MM-DD'); -->
-
-        <td class="person"><%= task.userID %></td>
-        <td class="task-date"><%= task.end_date %></td>
-       <td class="task-descrip"> <%= task.text %></td>
-        
+    
+          <tbody>
+          <tr>
+            <td class="person"><%= task.fullname.split(' ')[0] %></td>
+            <td class="task-date"><%= task.modifiedDate %></td>
+            <td class="task-descrip"> <%= task.text %></td>
+          </tr>
         <% }) %>
       </tbody>
-      </div>
     </table>
-    </div>
+  </div>
   </div>
 
   <div id="chart-wrapper">
