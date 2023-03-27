@@ -168,20 +168,11 @@
     border: none;
     display: block;
     background: #435d7d;
-    /* background-image: -webkit-linear-gradient(top, #dc3912, #be3110);
-    background-image: -moz-linear-gradient(top, #dc3912, #be3110);
-    background-image: -ms-linear-gradient(top, #dc3912, #be3110);
-    background-image: -o-linear-gradient(top, #dc3912, #be3110);
-    background-image: linear-gradient(to bottom, #dc3912, #be3110); */
   }
   
   .submit-button:hover {
     background: #4479b9;
-    /* background-image: -webkit-linear-gradient(top, #be3110, #dc3912);
-    background-image: -moz-linear-gradient(top, #be3110, #dc3912);
-    background-image: -ms-linear-gradient(top, #be3110, #dc3912);
-    background-image: -o-linear-gradient(top, #be3110, #dc3912);
-    background-image: linear-gradient(to bottom, #be3110, #dc3912); */
+
   }
   
   .person {
@@ -195,6 +186,7 @@
     border: none;
     background: #3366cc;
   }
+
   .task-date {
 
     font-size: 16px;
@@ -220,6 +212,7 @@
     text-decoration: none;
     border: none;
     background-color: #9900f1;
+    
   }
 
   /* table {
@@ -227,10 +220,13 @@
   } */
   
 
-  td {
-    padding: 10px;
-    margin: 10px;
-		border-radius: 3px 3px 0 0;
+  .task-table{
+    border-collapse: separate;
+    border-spacing: 15px;
+  }
+
+  .task-table td {
+    padding: 5px;
   }
 
   /* end of todo */

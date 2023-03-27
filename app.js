@@ -18,6 +18,7 @@ const flash = require('connect-flash');
 const router = require("./public/js/router");
 const date = require('./public/js/date')
 const moment = require('moment');
+const cron = require('node-cron');
 const saltRounds = 10;
 
 const app = express();
@@ -154,8 +155,7 @@ app.get("/admin", function(req, res){
     const modifiedDate = moment(task.end_date).format("LL");
     return { ...task, modifiedDate }
     })
-
-    console.log(userTasks)
+    // console.log(userTasks)
     res.render('admin', {userData: userdatas, userTaskz: userTasks });
 })
    
@@ -189,7 +189,7 @@ app.post("/login", async (req, res)=>{
                     username: user.username,
                     role: user.role,
                   };
-                const [firstname, lastname] = user.fullname.split(" ")
+                  
                 if(user.role === 'user'){
                     res.redirect('homepage')
                 }else if(user.role ==='admin'){
@@ -229,15 +229,11 @@ app.get('/user-delete/:id', function(req, res){
 
 
 app.post("/add-task", function(req, res){
-
-
-
       const {userID, end_date, text } = req.body;
       var now = new Date();
       const start_date = moment(now).format('YYYY-MM-DD, h:mm:ss');
-      var end_date1 = new Date(end_date).toUTCString();
+    //   var end_date1 = new Date(end_date).toUTCString();
     //   end_date1 =  end_date1.split(' ').slice(0,4).join(' ')
-
       const end_datefull = end_date + " " + moment().format('LTS').replace(/ AM| PM/g, '');
 
         //console.log(end_datefull);
@@ -247,11 +243,10 @@ app.post("/add-task", function(req, res){
         let sql = `INSERT into events (userID, start_date, end_date, text) VALUES('${userID}', '${start_date}', '${end_datefull}', '${text}'); SELECT fullname, phone FROM users WHERE id = ${userID}`;
         db.query(sql, (error, results) => {
          if (error) throw error;
-         console.log(end_datefull)
             if( results[1] && Object.keys(results[1]).length > 0 ){
                 var name = results[1][0].fullname.split(' ')[0];
                 var phone = results[1][0].phone;
-                let content =  `\rHello ${name}, \r\n\r\nThis is just a kind reminder that you have been assigned a task by your admin.Kindly complete them before the deadline.\r\r\r\nFor more information, please visit ${link}.\n\n Have a great day!`
+                let content =  `\rHello ${name}, \r\n\r\nYou have an assigned task(s) by your admin. Please complete them before the deadline.\r\r\r\nFor more information, please visit ${link}.\n\n Have a great day!`
 
                 twilio.sendSMS(phone, content);
                 res.redirect('admin')
@@ -260,6 +255,47 @@ app.post("/add-task", function(req, res){
         //   res.redirect('/admin')
       );
 })
+
+cron.schedule('* * * * *', async () => {
+    try {
+      const upcomingTasks = await getUpcomingTasks();
+        
+      for (const task of upcomingTasks) {
+        const now = moment();
+        const taskDate = moment(task.end_date)
+        const diffInDate = taskDate.diff(now, 'days')
+        const deadline = moment(task.end_date).subtract(1, 'days')
+        if(diffInDate <= 2){
+            const message = `\rHello ${task.fullname.split(' ')[0]}, \r\n\r\nYour assigned task "${task.text}" is due soon on ${task.modifiedDate}. Kindly complete them soon Thank you`;
+            twilio.sendSMS(task.phone, message)
+        }
+      }
+    } catch (error) {
+      console.error('Error sending reminders:', error);
+    }
+  });
+
+
+  async function getUpcomingTasks() {
+    return new Promise((resolve, reject) => {
+      db.query(`
+      SELECT *,users.fullname 
+      FROM events 
+      JOIN users 
+      ON events.userID = users.id
+      `, (err, results) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(results.map(task =>{
+            const modifiedDate = moment(task.end_date).format("LLL");
+            return { ...task, modifiedDate }
+          }));
+        }
+      });
+    });
+  }
+  
 
 app.get("/logout", function(req, res) {
   
