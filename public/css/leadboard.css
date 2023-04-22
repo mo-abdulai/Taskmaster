@@ -1,0 +1,28 @@
+#lead-wrapper table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  #lead-wrapper th, td {
+    text-align: left;
+    padding: 0.5em;
+  }
+  
+  #lead-wrapper th {
+    background-color: #eee;
+  }
+  
+  #lead-wrapper tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+  }
+  
+  #lead-wrapper tbody tr:hover {
+    background-color: #f5f5f5;
+  }
+
+  #lead-wrapper h2 {
+  
+    margin-left: 12px;
+    margin-top: 10px;
+  }
+  
