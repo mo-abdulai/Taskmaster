@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="css/main.css">
+    <script type="text/javascript" src="js/validator-signup.js"></script>
     <title>Sign up</title>
 </head>
 
@@ -18,7 +19,7 @@
             <div class="mainbody">
                 <div class="row text-center">
 
-                    <form action="/" method="post">
+                    <form action="/" onsubmit="return validateForm();" method="post">
                         <div id="form_right">
 
                             <h1>Sign Up</h1>

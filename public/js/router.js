@@ -16,9 +16,11 @@ function callMethod (method) {
 };
  
 module.exports = {
-    setRoutes (app, prefix, storage) {
+    setRoutes (app, prefix, storage, id) {
+        
         app.get(`${prefix}`, callMethod((req) => {
-            return storage.getAll(req.query);
+         
+            return storage.getAll(req.query, id);
         }));
  
         app.post(`${prefix}`, callMethod((req) => {
@@ -26,10 +28,13 @@ module.exports = {
         }));
  
         app.put(`${prefix}/:id`, callMethod((req) => {
+
             return storage.update(req.params.id, req.body);
+
         }));
  
         app.delete(`${prefix}/:id`, callMethod((req) => {
+
             return storage.delete(req.params.id);
         }));
     }

@@ -1,33 +1,39 @@
 require("date-format-lite"); // add date format
  
 class Storage {
-    constructor(db, table) {
+    constructor(db, isAdmin = false) {
         this._db = db;
         this.table = "events";
+        this.isAdmin = isAdmin
+
     }
  
     // get events from the table, use dynamic loading if parameters sent
-    async getAll(params) {
+    async getAll(params, id) {
         let query = "SELECT * FROM ??";
         let queryParams = [
             this.table
         ];
 
+        if(!this.isAdmin){
 
-        if (params.from && params.to) { 
-            query += " WHERE `end_date` >= ? AND `start_date` < ?";
-            queryParams.push(params.from);
-            queryParams.push(params.to);
-    }
+            query += " WHERE userID = ?"
+            queryParams.push(id);
+        }
+    //     if (params.from && params.to) { 
+    //         query += " `end_date` >= ? AND `start_date` < ?";
+    //         queryParams.push(params.from);
+    //         queryParams.push(params.to);
+    // }
  
         let result = await this._db.query(query, queryParams);
- 
         result.forEach((entry) => {
             // format date and time
             entry.start_date = entry.start_date.format("YYYY-MM-DD hh:mm");
             entry.end_date = entry.end_date.format("YYYY-MM-DD hh:mm");
         });
         return result;
+        
     }
  
     

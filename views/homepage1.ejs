@@ -24,7 +24,7 @@
         <link href="https://cdn.dhtmlx.com/scheduler/edge/dhtmlxscheduler_material.css" rel="stylesheet" type="text/css" charset="utf-8">
         
         <link rel="stylesheet" href="css/admin.css">
-        <link rel="stylesheet" href="css/homepage.css">
+        <link rel="stylesheet" href="css/calender.css">
         
         
     </head>
@@ -46,9 +46,9 @@
           <a href="/logout" class="nav_link"> <i class="bx bx-log-out nav_icon"></i> <span class="nav_name">SignOut</span> </a>
       </nav>
   </div>
-<div class="wrapper">
 
   <div id="calender-containder">
+    
         <div id="scheduler_here" class="dhx_cal_container">
                     <div class="dhx_cal_navline">
                         <div class="dhx_cal_prev_button">&nbsp;</div>
@@ -61,14 +61,9 @@
                     </div>
                     <div class="dhx_cal_header"></div>
                     <div class="dhx_cal_data"></div>
-                </div>
+                    </div>
                  
                  <script>
-
-                  // const username = new URLSearchParams(window.location.search).get("user");
-                
-                  
-              
                     scheduler.config.load_date="%Y-%m-%d %H:%i";
                     scheduler.init("scheduler_here", new Date(), "week");
                     scheduler.setLoadMode("day");
@@ -78,42 +73,15 @@
                         recurring: true
                     });
                     // load data from backend
-                    scheduler.load(`/events`, "json");
+                    scheduler.load("/events", "json");
                     // connect backend to scheduler
                     const dp = scheduler.createDataProcessor({
-                        url: `/events`,
+                        url: "/events",
                         mode: "REST"
                     });
-                  
-                </script>     
+                </script>
   </div>
 
-  <div id="task-complete">
-    <table class="task-table" id="table-container">
-      <thead>
-        <tr>
-          <th>Assigned Tasks</th>
-            <th>Complete</th>
-          
-        </tr>
-        
-      </thead>
-      <% taskz.forEach(task => { %>
-  
-        <tbody>
-        <tr>
-          <td class="task-complete"> <%= task.text %></td>
-          <td>
-            <form method="POST" action="/events/<%= task.id %>?_method=DELETE">
-              <button class="btn btn-outline-success" >Yes</button>
-            </form>
-          </td>
-        </tr>
-      <% }) %>
-    </tbody>
-  </table>
-  </div>
-</div>
 
 
 

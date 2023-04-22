@@ -19,6 +19,7 @@ const router = require("./public/js/router");
 const date = require('./public/js/date')
 const moment = require('moment');
 const cron = require('node-cron');
+// const Scheduler = require('dhtmlx-scheduler')
 const saltRounds = 10;
 
 const app = express();
@@ -27,8 +28,8 @@ app.use(express.json());
 
 // add listeners to basic CRUD requests
 const Storage = require("./public/js/storage");
-const storage = new Storage(db)
-router.setRoutes(app, "/events", storage);
+const { content } = require('googleapis/build/src/apis/content');
+// console.log(storage)
 
 
 // Set up the flash middleware
@@ -41,6 +42,7 @@ app.use(express.static("public"))
 // scope variable 
 var userdatas = []
 var userTasks = []
+var tasks = []
 
 //session middleware
 app.use(sessions({
@@ -162,13 +164,47 @@ app.get("/admin", function(req, res){
 })
 
 
+
 app.post("/homepage", function(req, res){
-    res.redirect("homepage")
+    res.redirect(`homepage?user=${username}`)
 })
 
 app.get("/homepage", function(req, res){
-    res.render('homepage');
+    const userID = req.session.user.id;
+    // Retrieve tasks associated with the user from the database
+    db.query(`SELECT * FROM events WHERE userID = '${userID}'`, async function (err, tasksResult) {
+        // Render the homepage template with the user's tasks
+        if (err) throw err; 
+        tasks = tasksResult;
+        res.render('homepage', { taskz: tasks, userID: userID});
+    });
 })
+
+
+app.post('/events/:id', (req, res) => {
+   const email = 'bukwem@yahoo.com';
+   const eventID = req.params.id;
+    db.query('SELECT users.id, events.id, users.fullname FROM events JOIN users ON events.userID = users.id WHERE events.id = ?', [eventID], (err, result) => {
+      if (err) throw err;
+      const user = result[0].fullname.split(' '); 
+
+      let content = `Task assigned to ${user} has been completed`;
+
+      db.query('DELETE FROM events WHERE id = ?', [eventID], (err, result) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+      
+      googleEmail.sendEmail(email, content);
+      res.redirect('/homepage');
+    })
+      
+    });
+  });
+           
+  
+
 
 app.post("/login", async (req, res)=>{
         var username = req.body.username;
@@ -189,9 +225,15 @@ app.post("/login", async (req, res)=>{
                     username: user.username,
                     role: user.role,
                   };
-                  
+                //   console.log(user.role=="admin")
+                
+                const storage = new Storage(db, user.role == "admin")
+                router.setRoutes(app, "/events", storage, req.session.user.id);
+
+
+                //   const user = req.session.user;
                 if(user.role === 'user'){
-                    res.redirect('homepage')
+                    res.redirect(`homepage`)
                 }else if(user.role ==='admin'){
                     res.redirect('admin');
                 }   
@@ -217,12 +259,13 @@ app.get('/login', (req, res) => {
 app.get('/user-delete/:id', function(req, res){
     var id = req.params.id;
     
+
     db.query('DELETE FROM events WHERE userID = ?', [id], (error, results, fields) => {
         if (error) throw error;
         var userID = req.params.id;
-        db.query('DELETE FROM users WHERE id = ?', [id], (error, results, fields) => {
-            if (error) throw error;  
-            res.redirect('/admin');
+        db.query(`DELETE FROM users WHERE id = ?`, [id], (error, results, fields) => {
+          if (error) throw error;
+          res.redirect('/admin');
         })    
       });
 })
@@ -235,7 +278,6 @@ app.post("/add-task", function(req, res){
     //   var end_date1 = new Date(end_date).toUTCString();
     //   end_date1 =  end_date1.split(' ').slice(0,4).join(' ')
       const end_datefull = end_date + " " + moment().format('LTS').replace(/ AM| PM/g, '');
-
         //console.log(end_datefull);
         const link = `https://heroku/taskMaster.com`;
         // let sql = `INSERT into events (userID, start_date, end_date, text) VALUES('${userID}', '${start_date}', '${end_datefull}', '${text}')`;
@@ -244,10 +286,10 @@ app.post("/add-task", function(req, res){
         db.query(sql, (error, results) => {
          if (error) throw error;
             if( results[1] && Object.keys(results[1]).length > 0 ){
-                var name = results[1][0].fullname.split(' ')[0];
-                var phone = results[1][0].phone;
-                let content =  `\rHello ${name}, \r\n\r\nYou have an assigned task(s) by your admin. Please complete them before the deadline.\r\r\r\nFor more information, please visit ${link}.\n\n Have a great day!`
-
+                let name = results[1][0].fullname.split(' ')[0];
+                let phone = results[1][0].phone;
+                let content =  `\rHello ${name}, \r\n\r\nYou have been assigned task(s) by your admin. Please complete them before the deadline.\r\r\r\nFor more information, please visit ${link}.\n\n Have a great day!`
+                console.log(content)
                 twilio.sendSMS(phone, content);
                 res.redirect('admin')
             }
@@ -256,17 +298,18 @@ app.post("/add-task", function(req, res){
       );
 })
 
-cron.schedule('* * * * *', async () => {
+
+cron.schedule('0 0 * * 0', async () => {
     try {
+     
       const upcomingTasks = await getUpcomingTasks();
-        
       for (const task of upcomingTasks) {
         const now = moment();
         const taskDate = moment(task.end_date)
         const diffInDate = taskDate.diff(now, 'days')
         const deadline = moment(task.end_date).subtract(1, 'days')
-        if(diffInDate <= 2){
-            const message = `\rHello ${task.fullname.split(' ')[0]}, \r\n\r\nYour assigned task "${task.text}" is due soon on ${task.modifiedDate}. Kindly complete them soon Thank you`;
+        if(diffInDate <= 1){
+            const message = `\rHello ${task.fullname.split(' ')[0]}, \r\n\r\nThis is a gentle reminder that your assigned task "${task.text}" is due soon on ${task.modifiedDate}. Kindly complete them before the due date. Thank you`;
             twilio.sendSMS(task.phone, message)
         }
       }
